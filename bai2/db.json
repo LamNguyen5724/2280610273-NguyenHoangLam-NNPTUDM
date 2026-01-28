@@ -1,0 +1,60 @@
+{
+  "$schema": "./node_modules/json-server/schema.json",
+  "posts": [
+    {
+      "id": "1",
+      "title": "a title",
+      "views": 100,
+      "isDeleted": true
+    },
+    {
+      "id": "2",
+      "title": "another title",
+      "views": 200,
+      "isDeleted": true
+    },
+    {
+      "id": "3",
+      "title": "third title",
+      "views": 150,
+      "isDeleted": false
+    },
+    {
+      "id": "4",
+      "title": "hhh",
+      "views": "zzzz",
+      "isDeleted": true
+    },
+    {
+      "id": "5",
+      "title": "zzzz",
+      "views": "111",
+      "isDeleted": false
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "text": "a comment about post 1",
+      "postId": "1"
+    },
+    {
+      "id": "2",
+      "text": "another comment about post 1",
+      "postId": "1"
+    },
+    {
+      "id": "ebfd",
+      "text": "Hoang Thanh Hai ",
+      "postId": "1"
+    },
+    {
+      "id": "b03e",
+      "text": "HUTECH",
+      "postId": "3"
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

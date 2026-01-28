@@ -1,0 +1,103 @@
+async function LoadData() {
+let res = await fetch("http://localhost:3000/posts");
+let posts = await res.json();
+let body = document.getElementById("body_table");
+body.innerHTML = '';
+
+
+for (const post of posts) {
+let style = "";
+if (post.isDeleted === true) {
+style = "style='text-decoration:line-through;color:gray'";
+}
+
+
+body.innerHTML += `
+<tr ${style}>
+<td>${post.id}</td>
+<td>${post.title}</td>
+<td>${post.views}</td>
+<td>
+<button onclick="SoftDelete('${post.id}')">Xoá</button>
+</td>
+</tr>
+`;
+}
+}
+
+
+async function Save() {
+    let title = document.getElementById("title_txt").value;
+let views = document.getElementById("view_txt").value;
+
+
+let res = await fetch("http://localhost:3000/posts");
+let posts = await res.json();
+
+
+let maxId = 0;
+for (let p of posts) {
+let idNum = Number(p.id);
+if (idNum > maxId) maxId = idNum;
+}
+
+
+let newId = String(maxId + 1);
+
+
+let newPost = {
+id: newId,
+title: title,
+views: views,
+isDeleted: false
+};
+await fetch("http://localhost:3000/posts", {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify(newPost)
+});
+LoadData();
+}
+
+
+async function SoftDelete(id) {
+await fetch("http://localhost:3000/posts/" + id, {
+method: "PATCH",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({
+isDeleted: true
+})
+});
+LoadData();
+}
+
+async function AddComment(text, postId) {
+    await fetch("http://localhost:3000/comments", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            text: text,
+            postId: postId
+        })
+    });
+}
+
+async function GetComments(postId) {
+    let res = await fetch(
+        "http://localhost:3000/comments?postId=" + postId
+    );
+    let data = await res.json();
+    console.log(data);
+}
+
+async function DeleteComment(id) {
+    await fetch("http://localhost:3000/comments/" + id, {
+        method: "DELETE"
+    });
+}
